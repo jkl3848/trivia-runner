@@ -4,8 +4,8 @@
     <div class="flex-1 flex items-center justify-center p-8">
       <!-- Aspect Ratio Container -->
       <div
+        :key="windowKey"
         class="relative bg-black shadow-2xl overflow-hidden"
-        :class="aspectRatioClass"
         :style="contentBoxStyle"
       >
         <!-- Trivia Content Box -->
@@ -378,7 +378,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { useTrivia } from "./composables/useTrivia";
 import { useTheme } from "./composables/useTheme";
 
@@ -426,19 +426,29 @@ const aspectRatioClass = computed(() => {
   return isVertical.value ? "aspect-[9/16]" : "aspect-[16/9]";
 });
 
-// Dynamic styling for the content box size
+// Dynamic styling for the content box size with fixed dimensions
 const contentBoxStyle = computed(() => {
   if (isVertical.value) {
-    // 9:16 - height-based (max height of available space)
+    // 9:16 - Fixed dimensions for vertical video (1080x1920 scaled to fit)
+    const maxHeight = window.innerHeight - 64; // Account for padding
+    const targetHeight = Math.min(maxHeight, 1920);
+    const width = (targetHeight * 9) / 16;
+
     return {
-      maxHeight: "calc(100vh - 4rem)",
-      height: "100%",
+      width: `${width}px`,
+      height: `${targetHeight}px`,
+      fontSize: `${targetHeight / 1920}em`, // Scale text proportionally
     };
   } else {
-    // 16:9 - width-based (max width of available space)
+    // 16:9 - Fixed dimensions for horizontal video (1920x1080 scaled to fit)
+    const maxWidth = window.innerWidth - 320 - 64; // Account for sidebar + padding
+    const targetWidth = Math.min(maxWidth, 1920);
+    const height = (targetWidth * 9) / 16;
+
     return {
-      maxWidth: "calc(100vw - 22rem)", // Account for sidebar width
-      width: "100%",
+      width: `${targetWidth}px`,
+      height: `${height}px`,
+      fontSize: `${targetWidth / 1920}em`, // Scale text proportionally
     };
   }
 });
@@ -447,6 +457,12 @@ const contentBoxStyle = computed(() => {
 const progressPercentage = computed(() => {
   return ((60 - timeRemaining.value) / 60) * 100;
 });
+
+// Force re-computation on window resize
+const windowKey = ref(0);
+const handleResize = () => {
+  windowKey.value++;
+};
 
 onMounted(async () => {
   if (window.trivia) {
@@ -457,6 +473,13 @@ onMounted(async () => {
       console.error("Failed to load trivia files:", err);
     }
   }
+
+  // Add resize listener for responsive scaling
+  window.addEventListener("resize", handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
 });
 
 async function selectFile() {
