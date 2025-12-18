@@ -91,10 +91,10 @@ if (require("electron-squirrel-startup")) {
 }
 
 const createWindow = () => {
-  // Create the browser window - Vertical 1080p (9:16 aspect ratio)
+  // Create the browser window - Large enough for content box + controls
   const mainWindow = new BrowserWindow({
-    width: 1080,
-    height: 1920,
+    width: 1600,
+    height: 1000,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
