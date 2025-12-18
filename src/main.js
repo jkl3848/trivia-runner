@@ -390,11 +390,28 @@ async function loadThemeFile(filePath) {
   }
 }
 
-async function getThemeFiles(baseDir) {
+async function getThemeFiles() {
   try {
-    const themeDir = path.join(baseDir, "themes");
-    const files = await fs.readdir(themeDir);
+    // Check if app is packaged (asar bundle) or in development
+    let themeDir;
 
+    if (app.isPackaged) {
+      // In production, themes are in the resources directory as an extra resource
+      themeDir = path.join(process.resourcesPath, "themes");
+    } else {
+      // In development, themes are in the project root
+      themeDir = path.join(app.getAppPath(), "themes");
+    }
+
+    // Ensure the themes directory exists
+    try {
+      await fs.access(themeDir);
+    } catch {
+      console.warn(`Themes directory not found at ${themeDir}`);
+      return [];
+    }
+
+    const files = await fs.readdir(themeDir);
     const themeFiles = files.filter((file) => file.endsWith(".json"));
     const themes = [];
 
@@ -411,7 +428,6 @@ async function getThemeFiles(baseDir) {
         });
       }
     }
-
     return themes;
   } catch (error) {
     console.error("Error reading themes directory:", error);
@@ -544,8 +560,7 @@ ipcMain.handle("select-trivia-file", async () => {
 // Get list of available themes
 ipcMain.handle("get-themes", async () => {
   try {
-    const appPath = app.getAppPath();
-    const themes = await getThemeFiles(appPath);
+    const themes = await getThemeFiles();
     return themes;
   } catch (error) {
     console.error("Error getting themes:", error);

@@ -1,10 +1,13 @@
 const { VitePlugin } = require("@electron-forge/plugin-vite");
+const path = require("path");
 
 module.exports = {
   packagerConfig: {
     asar: true,
     // Don't ignore node_modules that are needed
-    ignore: [/^\/\.git/, /^\/node_modules\/\.cache/],
+    ignore: [/^\/\.git/, /^\/node_modules\/\.cache/, /^\/\.github/, /^\/out/],
+    // Copy themes to resources (outside asar)
+    extraResource: ["themes"],
   },
   rebuildConfig: {},
   makers: [
