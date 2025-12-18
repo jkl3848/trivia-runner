@@ -6,6 +6,7 @@ export function useTrivia() {
   const isPlaying = ref(false);
   const triviaFileName = ref("");
   const shuffledIndices = ref([]);
+  const questionDuration = ref(60); // Configurable duration in seconds
   const timeRemaining = ref(60);
   const showAnswer = ref(false);
   let intervalId = null;
@@ -37,8 +38,15 @@ export function useTrivia() {
     const indices = questions.value.map((_, i) => i);
     shuffledIndices.value = shuffleArray(indices);
     currentQuestionIndex.value = 0;
-    timeRemaining.value = 60;
+    timeRemaining.value = questionDuration.value;
     showAnswer.value = false;
+  };
+
+  const setQuestionDuration = (seconds) => {
+    questionDuration.value = Math.max(5, Math.min(300, seconds)); // Between 5 and 300 seconds
+    if (!isPlaying.value) {
+      timeRemaining.value = questionDuration.value;
+    }
   };
 
   const nextQuestion = () => {
@@ -54,7 +62,7 @@ export function useTrivia() {
     }
 
     // Reset timer and answer visibility
-    timeRemaining.value = 60;
+    timeRemaining.value = questionDuration.value;
     showAnswer.value = false;
   };
 
@@ -62,7 +70,7 @@ export function useTrivia() {
     if (questions.value.length === 0) return;
 
     isPlaying.value = true;
-    timeRemaining.value = 60;
+    timeRemaining.value = questionDuration.value;
     showAnswer.value = false;
 
     // Update timer every 100ms for smooth progress bar
@@ -113,10 +121,12 @@ export function useTrivia() {
     triviaFileName,
     timeRemaining,
     showAnswer,
+    questionDuration,
     loadTriviaData,
     nextQuestion,
     startTrivia,
     stopTrivia,
     resetTrivia,
+    setQuestionDuration,
   };
 }

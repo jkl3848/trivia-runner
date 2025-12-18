@@ -45,16 +45,8 @@
       "border": "#fbbf24"
     },
     "progressBar": {
-      "background": "rgba(0, 0, 0, 0.4)",
-      "fill": {
-        "type": "gradient",
-        "gradient": {
-          "from": "#ec4899",
-          "via": "#8b5cf6",
-          "to": "#22d3ee",
-          "direction": "to-r"
-        }
-      }
+      "background": "rgba(0, 0, 0, 0.5)",
+      "fill": "#06b6d4"
     },
     "shapes": [
       {

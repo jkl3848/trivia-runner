@@ -142,9 +142,7 @@ export function useTheme() {
 
   const getProgressBarStyle = computed(() => {
     if (!currentTheme.value) {
-      return {
-        background: "linear-gradient(to right, #22d3ee, #3b82f6, #a855f7)",
-      };
+      return { backgroundColor: "#3b82f6" };
     }
 
     const fill = currentTheme.value.colors.progressBar.fill;
@@ -164,9 +162,7 @@ export function useTheme() {
         return { background: `linear-gradient(${dir}, ${from}, ${to})` };
       }
     }
-    return {
-      background: "linear-gradient(to right, #22d3ee, #3b82f6, #a855f7)",
-    };
+    return { backgroundColor: "#3b82f6" };
   });
 
   const getCategoryStyle = (level) => {

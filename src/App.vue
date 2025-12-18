@@ -168,10 +168,7 @@
             >
               <div
                 class="absolute inset-y-0 left-0 transition-all duration-100 ease-linear"
-                :style="{
-                  width: progressPercentage + '%',
-                  ...getProgressBarStyle,
-                }"
+                :style="progressBarFillStyle"
               ></div>
               <div class="absolute inset-0 flex items-center justify-center">
                 <span
@@ -251,6 +248,29 @@
           </select>
           <p v-if="currentTheme" class="text-xs text-gray-400 italic">
             {{ currentTheme.description }}
+          </p>
+        </div>
+
+        <!-- Question Duration -->
+        <div class="space-y-2">
+          <label
+            class="text-sm font-semibold text-gray-300 uppercase tracking-wide"
+            >Question Duration</label
+          >
+          <div class="flex gap-2 items-center">
+            <input
+              type="number"
+              :value="questionDuration"
+              @input="handleDurationChange($event)"
+              :disabled="isPlaying"
+              min="5"
+              max="300"
+              class="flex-1 bg-gray-700 border border-gray-600 text-white font-medium py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            <span class="text-gray-400 font-semibold">sec</span>
+          </div>
+          <p class="text-xs text-gray-400">
+            Between 5 and 300 seconds (default: 60s)
           </p>
         </div>
 
@@ -390,11 +410,13 @@ const {
   triviaFileName,
   timeRemaining,
   showAnswer,
+  questionDuration,
   loadTriviaData,
   nextQuestion,
   startTrivia,
   stopTrivia,
   resetTrivia,
+  setQuestionDuration,
 } = useTrivia();
 
 const {
@@ -455,7 +477,20 @@ const contentBoxStyle = computed(() => {
 
 // Progress bar percentage (0-100)
 const progressPercentage = computed(() => {
-  return ((60 - timeRemaining.value) / 60) * 100;
+  if (!isPlaying.value) return 0;
+  const elapsed = questionDuration.value - timeRemaining.value;
+  const percentage = (elapsed / questionDuration.value) * 100;
+  return Math.max(0, Math.min(100, percentage)); // Clamp between 0 and 100
+});
+
+// Combined progress bar fill style (width + theme styling)
+const progressBarFillStyle = computed(() => {
+  const style = {
+    width: progressPercentage.value + "%",
+    ...getProgressBarStyle.value,
+  };
+  console.log("Progress Bar Style:", style);
+  return style;
 });
 
 // Force re-computation on window resize
@@ -531,6 +566,13 @@ function handleThemeChange(event) {
   const themePath = selectedOption.dataset.path;
   if (themePath) {
     selectTheme(themePath);
+  }
+}
+
+function handleDurationChange(event) {
+  const value = parseInt(event.target.value, 10);
+  if (!isNaN(value)) {
+    setQuestionDuration(value);
   }
 }
 </script>
