@@ -1,5 +1,5 @@
 const Ajv = require("ajv");
-const { triviaSchema } = require("./triviaSchema");
+const { triviaSchema } = require("./schemas/triviaSchema");
 const fs = require("fs").promises;
 const path = require("path");
 
