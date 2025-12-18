@@ -1,0 +1,69 @@
+<template>
+  <div
+    class="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 text-white"
+  >
+    <div class="container mx-auto px-4 py-8">
+      <header class="text-center mb-12">
+        <h1 class="text-5xl font-bold mb-4">Trivia Runner</h1>
+        <p class="text-xl text-gray-300">
+          Endless trivia for streaming on YouTube
+        </p>
+      </header>
+
+      <main class="max-w-4xl mx-auto">
+        <div class="bg-white/10 backdrop-blur-lg rounded-lg shadow-2xl p-8">
+          <h2 class="text-3xl font-semibold mb-6">Welcome to Trivia Runner!</h2>
+
+          <div class="space-y-4">
+            <p class="text-lg">This Electron app is built with:</p>
+            <ul class="list-disc list-inside space-y-2 text-gray-200">
+              <li><strong>Electron Forge</strong> - Complete build pipeline</li>
+              <li><strong>Vue 3</strong> - Progressive JavaScript framework</li>
+              <li><strong>Vite</strong> - Next generation frontend tooling</li>
+              <li>
+                <strong>Tailwind CSS</strong> - Utility-first CSS framework
+              </li>
+            </ul>
+
+            <div
+              class="mt-8 p-4 bg-blue-500/20 rounded-lg border border-blue-400/30"
+            >
+              <h3 class="text-xl font-semibold mb-2">System Info</h3>
+              <p class="text-sm text-gray-300">Node: {{ nodeVersion }}</p>
+              <p class="text-sm text-gray-300">Chrome: {{ chromeVersion }}</p>
+              <p class="text-sm text-gray-300">
+                Electron: {{ electronVersion }}
+              </p>
+            </div>
+
+            <div class="mt-8">
+              <button
+                @click="count++"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200 shadow-lg hover:shadow-xl"
+              >
+                Clicked {{ count }} times
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { ref, onMounted } from "vue";
+
+const count = ref(0);
+const nodeVersion = ref("");
+const chromeVersion = ref("");
+const electronVersion = ref("");
+
+onMounted(() => {
+  if (window.versions) {
+    nodeVersion.value = window.versions.node();
+    chromeVersion.value = window.versions.chrome();
+    electronVersion.value = window.versions.electron();
+  }
+});
+</script>

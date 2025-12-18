@@ -1,0 +1,34 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "What is the capital of France?",
+      "answer": "Paris",
+      "category": {
+        "main": "General Knowledge",
+        "sub": "Geography",
+        "subsub": "Capitals"
+      }
+    },
+    {
+      "id": 2,
+      "question": "Who wrote 'To Kill a Mockingbird'?",
+      "answer": "Harper Lee",
+      "category": {
+        "main": "Literature",
+        "sub": "Novels",
+        "subsub": "Classics"
+      }
+    },
+    {
+      "id": 3,
+      "question": "What is the chemical symbol for Gold?",
+      "answer": "Au",
+      "category": {
+        "main": "Science",
+        "sub": "Chemistry",
+        "subsub": "Elements"
+      }
+    }
+  ]
+}

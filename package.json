@@ -1,0 +1,44 @@
+{
+  "name": "trivia-runner",
+  "version": "1.0.0",
+  "description": "An electron app that runs endless trivia for streaming on YouTube.",
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linter configured\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jkl3848/trivia-runner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jkl3848/trivia-runner/issues"
+  },
+  "homepage": "https://github.com/jkl3848/trivia-runner#readme",
+  "devDependencies": {
+    "@electron-forge/cli": "^7.10.2",
+    "@electron-forge/maker-deb": "^7.10.2",
+    "@electron-forge/maker-rpm": "^7.10.2",
+    "@electron-forge/maker-squirrel": "^7.10.2",
+    "@electron-forge/maker-zip": "^7.10.2",
+    "@electron-forge/plugin-vite": "^7.10.2",
+    "@vitejs/plugin-vue": "^6.0.3",
+    "autoprefixer": "^10.4.23",
+    "electron": "^39.2.7",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.0",
+    "vite": "^7.3.0"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "electron-squirrel-startup": "^1.0.1",
+    "vue": "^3.5.26"
+  },
+  "packageManager": "yarn@4.11.0+sha512.4e54aeace9141df2f0177c266b05ec50dc044638157dae128c471ba65994ac802122d7ab35bcd9e81641228b7dcf24867d28e750e0bcae8a05277d600008ad54"
+}
