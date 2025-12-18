@@ -14,10 +14,27 @@
           :class="getBackgroundClass"
           :style="getBackgroundStyle"
         >
-          <!-- Animated Background Shapes -->
+          <!-- Background Image Layer (if specified) -->
+          <div
+            v-if="currentTheme?.backgroundImage?.dataUrl"
+            class="absolute inset-0"
+            :style="{
+              backgroundImage: `url('${currentTheme.backgroundImage.dataUrl}')`,
+              backgroundSize: currentTheme.backgroundImage.size || 'cover',
+              backgroundPosition:
+                currentTheme.backgroundImage.position || 'center',
+              backgroundRepeat: 'no-repeat',
+              opacity: currentTheme.backgroundImage.opacity || 1,
+              zIndex: 1,
+            }"
+          ></div>
+
+          <!-- Animated Background Shapes (only if no background image) -->
           <div
             class="absolute inset-0 overflow-hidden"
-            v-if="getShapes.length > 0"
+            v-if="
+              getShapes.length > 0 && !currentTheme?.backgroundImage?.dataUrl
+            "
           >
             <div
               v-for="(shape, index) in getShapes"

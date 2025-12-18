@@ -79,13 +79,13 @@
   },
   "layout": {
     "spacing": {
-      "question": "mb-12",
-      "categories": "mb-8",
-      "answer": "px-12 py-8"
+      "question": "mb-16",
+      "categories": "mb-12",
+      "answer": "px-16 py-12"
     },
     "borderRadius": {
-      "categories": "rounded-2xl",
-      "answer": "rounded-2xl"
+      "categories": "rounded-full",
+      "answer": "rounded-3xl"
     }
   }
 }

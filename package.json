@@ -1,6 +1,6 @@
 {
   "name": "trivia-runner",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "An electron app that runs endless trivia for streaming on YouTube.",
   "main": ".vite/build/main.js",
   "scripts": {

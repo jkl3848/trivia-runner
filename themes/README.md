@@ -97,8 +97,50 @@ This directory contains theme files that customize the appearance of your trivia
       "categories": "rounded-full | rounded-2xl | rounded-lg",
       "answer": "rounded-3xl | rounded-2xl | rounded-xl"
     }
+  },
+  "backgroundImage": {
+    "path": "images/bg.jpg",
+    "opacity": 1,
+    "size": "cover",
+    "position": "center"
   }
 }
+```
+
+## Background Images
+
+You can add an optional background image to your theme. Add a `backgroundImage` object to your theme JSON:
+
+```json
+"backgroundImage": {
+  "path": "images/my-background.jpg",
+  "opacity": 0.8,
+  "size": "cover",
+  "position": "center"
+}
+```
+
+### Background Image Properties
+
+- **path** (required): Relative path to image file from the themes folder (e.g., `images/bg.jpg`)
+- **opacity** (optional): Image opacity from 0 (transparent) to 1 (opaque). Default: 1
+- **size** (optional): CSS background-size value - `"cover"`, `"contain"`, or `"auto"`. Default: `"cover"`
+- **position** (optional): CSS background-position value (e.g., `"center"`, `"top"`, `"bottom"`). Default: `"center"`
+
+### Using Background Images
+
+1. Create an `images` folder in the themes directory
+2. Add your image files (JPEG, PNG, WebP, etc.)
+3. Reference them in your theme's `backgroundImage.path` property
+4. The image will be layered on top of the background color/gradient
+
+### Example Structure
+
+```text
+themes/
+├── my-theme.json
+├── images/
+│   └── background.jpg
 ```
 
 ## Color Formats
