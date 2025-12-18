@@ -9,6 +9,9 @@ on:
       - "LICENSE"
       - ".gitignore"
 
+permissions:
+  contents: write
+
 jobs:
   build:
     strategy:
@@ -89,8 +92,15 @@ jobs:
         id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
+      - name: Create Git Tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a v${{ steps.version.outputs.version }}-${{ github.run_number }} -m "Release v${{ steps.version.outputs.version }}" ${{ github.sha }} || true
+          git push origin v${{ steps.version.outputs.version }}-${{ github.run_number }} || true
+
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.version.outputs.version }}-${{ github.run_number }}
           name: Release v${{ steps.version.outputs.version }}
