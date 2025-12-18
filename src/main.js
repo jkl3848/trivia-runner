@@ -306,6 +306,34 @@ const themeSchema = {
         },
       },
     },
+    backgroundImage: {
+      type: "object",
+      properties: {
+        path: {
+          type: "string",
+          description:
+            "Relative path to image file from themes folder (e.g., 'images/bg.jpg')",
+        },
+        opacity: {
+          type: "number",
+          minimum: 0,
+          maximum: 1,
+          default: 1,
+          description: "Opacity of the background image (0-1)",
+        },
+        size: {
+          type: "string",
+          enum: ["cover", "contain", "auto"],
+          default: "cover",
+          description: "CSS background-size value",
+        },
+        position: {
+          type: "string",
+          default: "center",
+          description: "CSS background-position value",
+        },
+      },
+    },
   },
 };
 
@@ -581,6 +609,57 @@ ipcMain.handle("load-theme", async (event, filePath) => {
       return {
         success: false,
         error: "Invalid theme file",
+      };
+    }
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message,
+    };
+  }
+});
+
+// Resolve background image path for a theme and return as data URL
+ipcMain.handle("resolve-theme-image", async (event, themePath, imagePath) => {
+  try {
+    let fullImagePath;
+
+    // Check if the path is absolute
+    if (path.isAbsolute(imagePath)) {
+      // Use the absolute path directly
+      fullImagePath = imagePath;
+    } else {
+      // Relative path - resolve relative to theme directory
+      const themeDir = path.dirname(themePath);
+      fullImagePath = path.join(themeDir, imagePath);
+    }
+
+    // Check if the file exists and read it
+    try {
+      const imageBuffer = await fs.readFile(fullImagePath);
+
+      // Determine MIME type based on file extension
+      const ext = path.extname(fullImagePath).toLowerCase();
+      let mimeType = "image/jpeg";
+      if (ext === ".png") mimeType = "image/png";
+      else if (ext === ".jpg" || ext === ".jpeg") mimeType = "image/jpeg";
+      else if (ext === ".gif") mimeType = "image/gif";
+      else if (ext === ".webp") mimeType = "image/webp";
+      else if (ext === ".svg") mimeType = "image/svg+xml";
+      else if (ext === ".bmp") mimeType = "image/bmp";
+
+      // Convert to base64 data URL
+      const base64Image = imageBuffer.toString("base64");
+      const dataUrl = `data:${mimeType};base64,${base64Image}`;
+
+      return {
+        success: true,
+        dataUrl: dataUrl,
+      };
+    } catch {
+      return {
+        success: false,
+        error: `Background image not found: ${imagePath}`,
       };
     }
   } catch (error) {

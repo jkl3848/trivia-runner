@@ -19,4 +19,6 @@ contextBridge.exposeInMainWorld("trivia", {
 contextBridge.exposeInMainWorld("themes", {
   getThemes: () => ipcRenderer.invoke("get-themes"),
   loadTheme: (filePath) => ipcRenderer.invoke("load-theme", filePath),
+  resolveImage: (themePath, imagePath) =>
+    ipcRenderer.invoke("resolve-theme-image", themePath, imagePath),
 });

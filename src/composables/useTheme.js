@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from "vue";
 export function useTheme() {
   const availableThemes = ref([]);
   const currentTheme = ref(null);
+  const currentThemePath = ref(null);
   const loading = ref(false);
   const error = ref("");
 
@@ -23,9 +24,18 @@ export function useTheme() {
   const getBackgroundStyle = computed(() => {
     if (!currentTheme.value) return {};
 
+    // If a background image is specified, use a transparent/semi-transparent overlay
+    if (currentTheme.value.backgroundImage?.dataUrl) {
+      return {
+        backgroundColor: "transparent",
+      };
+    }
+
     const bg = currentTheme.value.colors.background;
+    let baseStyle = {};
+
     if (bg.type === "solid") {
-      return { backgroundColor: bg.solid };
+      baseStyle = { backgroundColor: bg.solid };
     } else if (bg.type === "gradient" && bg.gradient) {
       // Create CSS gradient from config
       const { from, via, to } = bg.gradient;
@@ -43,16 +53,17 @@ export function useTheme() {
       else gradientDirection = "to bottom right";
 
       if (via) {
-        return {
+        baseStyle = {
           background: `linear-gradient(${gradientDirection}, ${from}, ${via}, ${to})`,
         };
       } else {
-        return {
+        baseStyle = {
           background: `linear-gradient(${gradientDirection}, ${from}, ${to})`,
         };
       }
     }
-    return {};
+
+    return baseStyle;
   });
 
   const getAnimationSpeed = computed(() => {
@@ -243,6 +254,25 @@ export function useTheme() {
 
         if (result.success) {
           currentTheme.value = result.data;
+          currentThemePath.value = themePath;
+
+          // Resolve background image path if present
+          if (result.data.backgroundImage && result.data.backgroundImage.path) {
+            const imageResult = await window.themes.resolveImage(
+              themePath,
+              result.data.backgroundImage.path
+            );
+
+            if (imageResult.success) {
+              // Store the data URL for use in CSS
+              currentTheme.value.backgroundImage.dataUrl = imageResult.dataUrl;
+            } else {
+              console.warn(
+                "Failed to resolve background image:",
+                imageResult.error
+              );
+            }
+          }
         } else {
           error.value = result.error || "Failed to load theme";
         }
