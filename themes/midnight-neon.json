@@ -1,0 +1,130 @@
+{
+  "name": "Midnight Neon",
+  "description": "Dark theme with vibrant neon accents",
+  "colors": {
+    "background": {
+      "type": "gradient",
+      "gradient": {
+        "from": "#1e1b4b",
+        "via": "#312e81",
+        "to": "#1e293b",
+        "direction": "to-br"
+      }
+    },
+    "text": {
+      "primary": "#ffffff",
+      "secondary": "rgba(255, 255, 255, 0.9)"
+    },
+    "categories": {
+      "main": {
+        "bg": "rgba(236, 72, 153, 0.3)",
+        "text": "#fbbf24",
+        "border": "#ec4899"
+      },
+      "sub": {
+        "bg": "rgba(139, 92, 246, 0.25)",
+        "text": "#22d3ee",
+        "border": "#8b5cf6"
+      },
+      "subsub": {
+        "bg": "rgba(34, 211, 238, 0.2)",
+        "text": "#a3e635",
+        "border": "#22d3ee"
+      }
+    },
+    "answer": {
+      "bg": {
+        "type": "gradient",
+        "gradient": {
+          "from": "#ec4899",
+          "to": "#8b5cf6",
+          "direction": "to-r"
+        }
+      },
+      "text": "#ffffff",
+      "border": "#fbbf24"
+    },
+    "progressBar": {
+      "background": "rgba(0, 0, 0, 0.4)",
+      "fill": {
+        "type": "gradient",
+        "gradient": {
+          "from": "#ec4899",
+          "via": "#8b5cf6",
+          "to": "#22d3ee",
+          "direction": "to-r"
+        }
+      }
+    },
+    "shapes": [
+      {
+        "color": "#ec4899",
+        "opacity": 0.15,
+        "position": "top-left",
+        "size": "medium"
+      },
+      {
+        "color": "#8b5cf6",
+        "opacity": 0.15,
+        "position": "bottom-right",
+        "size": "large"
+      },
+      {
+        "color": "#22d3ee",
+        "opacity": 0.12,
+        "position": "center",
+        "size": "medium"
+      }
+    ]
+  },
+  "typography": {
+    "title": {
+      "size": "text-8xl",
+      "weight": "font-black"
+    },
+    "question": {
+      "size": "text-6xl",
+      "weight": "font-black"
+    },
+    "answer": {
+      "size": "text-5xl",
+      "weight": "font-black"
+    },
+    "category": {
+      "main": {
+        "size": "text-xl",
+        "weight": "font-bold"
+      },
+      "sub": {
+        "size": "text-lg",
+        "weight": "font-semibold"
+      },
+      "subsub": {
+        "size": "text-base",
+        "weight": "font-medium"
+      }
+    }
+  },
+  "animations": {
+    "enabled": true,
+    "shapes": {
+      "enabled": true,
+      "speed": "fast"
+    },
+    "transitions": {
+      "enabled": true,
+      "duration": 500
+    }
+  },
+  "layout": {
+    "spacing": {
+      "question": "mb-16",
+      "categories": "mb-12",
+      "answer": "px-16 py-12"
+    },
+    "borderRadius": {
+      "categories": "rounded-full",
+      "answer": "rounded-3xl"
+    }
+  }
+}

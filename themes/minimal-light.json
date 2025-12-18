@@ -1,0 +1,99 @@
+{
+  "name": "Minimal Light",
+  "description": "Clean and simple light theme with subtle accents",
+  "colors": {
+    "background": {
+      "type": "solid",
+      "solid": "#f8fafc"
+    },
+    "text": {
+      "primary": "#0f172a",
+      "secondary": "#334155"
+    },
+    "categories": {
+      "main": {
+        "bg": "#3b82f6",
+        "text": "#ffffff",
+        "border": "#2563eb"
+      },
+      "sub": {
+        "bg": "#6366f1",
+        "text": "#ffffff",
+        "border": "#4f46e5"
+      },
+      "subsub": {
+        "bg": "#8b5cf6",
+        "text": "#ffffff",
+        "border": "#7c3aed"
+      }
+    },
+    "answer": {
+      "bg": "#10b981",
+      "text": "#ffffff",
+      "border": "#059669"
+    },
+    "progressBar": {
+      "background": "#e2e8f0",
+      "fill": {
+        "type": "gradient",
+        "gradient": {
+          "from": "#3b82f6",
+          "via": "#6366f1",
+          "to": "#8b5cf6",
+          "direction": "to-r"
+        }
+      }
+    },
+    "shapes": []
+  },
+  "typography": {
+    "title": {
+      "size": "text-8xl",
+      "weight": "font-black"
+    },
+    "question": {
+      "size": "text-5xl",
+      "weight": "font-bold"
+    },
+    "answer": {
+      "size": "text-4xl",
+      "weight": "font-bold"
+    },
+    "category": {
+      "main": {
+        "size": "text-lg",
+        "weight": "font-bold"
+      },
+      "sub": {
+        "size": "text-base",
+        "weight": "font-semibold"
+      },
+      "subsub": {
+        "size": "text-sm",
+        "weight": "font-medium"
+      }
+    }
+  },
+  "animations": {
+    "enabled": true,
+    "shapes": {
+      "enabled": false,
+      "speed": "normal"
+    },
+    "transitions": {
+      "enabled": true,
+      "duration": 500
+    }
+  },
+  "layout": {
+    "spacing": {
+      "question": "mb-12",
+      "categories": "mb-8",
+      "answer": "px-12 py-8"
+    },
+    "borderRadius": {
+      "categories": "rounded-2xl",
+      "answer": "rounded-2xl"
+    }
+  }
+}

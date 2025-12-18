@@ -15,3 +15,8 @@ contextBridge.exposeInMainWorld("trivia", {
     ipcRenderer.invoke("load-trivia-file", filePath),
   selectTriviaFile: () => ipcRenderer.invoke("select-trivia-file"),
 });
+
+contextBridge.exposeInMainWorld("themes", {
+  getThemes: () => ipcRenderer.invoke("get-themes"),
+  loadTheme: (filePath) => ipcRenderer.invoke("load-theme", filePath),
+});

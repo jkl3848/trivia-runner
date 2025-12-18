@@ -10,20 +10,18 @@
       >
         <!-- Trivia Content Box -->
         <div
-          class="absolute inset-0 bg-gradient-to-br from-violet-600 via-fuchsia-500 to-orange-400"
+          class="absolute inset-0"
+          :class="getBackgroundClass"
+          :style="getBackgroundStyle"
         >
           <!-- Animated Background Shapes -->
-          <div class="absolute inset-0 overflow-hidden">
+          <div class="absolute inset-0 overflow-hidden" v-if="getShapes.length > 0">
             <div
-              class="absolute top-10 left-10 w-64 h-64 bg-cyan-400/20 rounded-full blur-3xl animate-pulse"
-            ></div>
-            <div
-              class="absolute bottom-20 right-10 w-80 h-80 bg-pink-500/20 rounded-full blur-3xl animate-pulse"
-              style="animation-delay: 1s"
-            ></div>
-            <div
-              class="absolute top-1/2 left-1/3 w-72 h-72 bg-yellow-300/20 rounded-full blur-3xl animate-pulse"
-              style="animation-delay: 2s"
+              v-for="(shape, index) in getShapes"
+              :key="index"
+              class="absolute rounded-full blur-3xl animate-pulse"
+              :class="[getShapePositionClass(shape.position), getShapeSizeClass(shape.size)]"
+              :style="{ ...getShapeStyle(shape), animationDelay: `${index}s` }"
             ></div>
           </div>
 
@@ -34,10 +32,14 @@
           >
             <div class="text-center space-y-12">
               <div>
-                <h1 class="text-8xl font-black mb-6 text-white drop-shadow-2xl">
+                <h1
+                  class="mb-6 drop-shadow-2xl"
+                  :class="[getTypography('title').size, getTypography('title').weight]"
+                  :style="{ color: getTextColor }"
+                >
                   TRIVIA
                 </h1>
-                <p class="text-3xl font-semibold text-white/90">
+                <p class="text-3xl font-semibold" :style="{ color: getTextColor, opacity: 0.9 }">
                   Select a trivia file to begin
                 </p>
               </div>
@@ -51,28 +53,36 @@
               class="flex-1 flex flex-col items-center justify-center px-16 py-20"
             >
               <!-- Category Pills -->
-              <div class="flex flex-wrap gap-4 justify-center mb-12">
+              <div class="flex flex-wrap gap-4 justify-center" :class="getLayout('spacing').categories">
                 <span
-                  class="bg-white/30 backdrop-blur-md px-8 py-3 rounded-full text-white font-bold text-xl border-2 border-white/50 shadow-lg"
+                  class="backdrop-blur-md px-8 py-3 border-2 shadow-lg"
+                  :class="[getLayout('borderRadius').categories, getTypography('category').main.size, getTypography('category').main.weight]"
+                  :style="getCategoryStyle('main')"
                 >
                   {{ currentQuestion.category.main }}
                 </span>
                 <span
-                  class="bg-white/25 backdrop-blur-md px-8 py-3 rounded-full text-white font-semibold text-lg border border-white/40 shadow-lg"
+                  class="backdrop-blur-md px-8 py-3 border shadow-lg"
+                  :class="[getLayout('borderRadius').categories, getTypography('category').sub.size, getTypography('category').sub.weight]"
+                  :style="getCategoryStyle('sub')"
                 >
                   {{ currentQuestion.category.sub }}
                 </span>
                 <span
-                  class="bg-white/20 backdrop-blur-md px-6 py-2 rounded-full text-white font-medium text-base border border-white/30 shadow-lg"
+                  class="backdrop-blur-md px-6 py-2 border shadow-lg"
+                  :class="[getLayout('borderRadius').categories, getTypography('category').subsub.size, getTypography('category').subsub.weight]"
+                  :style="getCategoryStyle('subsub')"
                 >
                   {{ currentQuestion.category.subsub }}
                 </span>
               </div>
 
               <!-- Question -->
-              <div class="text-center mb-16 max-w-4xl">
+              <div class="text-center max-w-4xl" :class="getLayout('spacing').question">
                 <h2
-                  class="text-6xl font-black text-white leading-tight drop-shadow-2xl mb-8"
+                  class="leading-tight drop-shadow-2xl mb-8"
+                  :class="[getTypography('question').size, getTypography('question').weight]"
+                  :style="{ color: getTextColor }"
                 >
                   {{ currentQuestion.question }}
                 </h2>
@@ -80,18 +90,25 @@
 
               <!-- Answer -->
               <transition
-                enter-active-class="transition duration-700 ease-out"
+                enter-active-class="transition ease-out"
                 enter-from-class="opacity-0 scale-95 translate-y-8"
                 enter-to-class="opacity-100 scale-100 translate-y-0"
                 leave-active-class="transition duration-300 ease-in"
                 leave-from-class="opacity-100 scale-100"
                 leave-to-class="opacity-0 scale-95"
+                :style="{ '--enter-duration': getAnimationDuration + 'ms' }"
               >
                 <div
                   v-if="showAnswer"
-                  class="bg-gradient-to-r from-emerald-400 to-cyan-400 px-16 py-12 rounded-3xl shadow-2xl border-4 border-white max-w-4xl"
+                  class="shadow-2xl border-4 max-w-4xl"
+                  :class="[getLayout('spacing').answer, getLayout('borderRadius').answer]"
+                  :style="{ ...getAnswerStyle, borderColor: currentTheme?.colors.answer.border }"
                 >
-                  <p class="text-5xl font-black text-white drop-shadow-lg">
+                  <p
+                    class="drop-shadow-lg"
+                    :class="[getTypography('answer').size, getTypography('answer').weight]"
+                    :style="{ color: currentTheme?.colors.answer.text }"
+                  >
                     {{ currentQuestion.answer }}
                   </p>
                 </div>
@@ -99,13 +116,19 @@
             </div>
 
             <!-- Progress Bar -->
-            <div class="relative h-8 bg-black/30 backdrop-blur-sm">
+            <div
+              class="relative h-8 backdrop-blur-sm"
+              :style="{ backgroundColor: currentTheme?.colors.progressBar.background || 'rgba(0,0,0,0.3)' }"
+            >
               <div
-                class="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 transition-all duration-100 ease-linear"
-                :style="{ width: progressPercentage + '%' }"
+                class="absolute inset-y-0 left-0 transition-all duration-100 ease-linear"
+                :style="{ width: progressPercentage + '%', ...getProgressBarStyle }"
               ></div>
               <div class="absolute inset-0 flex items-center justify-center">
-                <span class="text-white font-bold text-lg drop-shadow-md">
+                <span
+                  class="font-bold text-lg drop-shadow-md"
+                  :style="{ color: getTextColor }"
+                >
                   {{ Math.ceil(timeRemaining) }}s
                 </span>
               </div>
@@ -155,6 +178,31 @@
               16:9<br /><span class="text-xs">(Horizontal)</span>
             </button>
           </div>
+        </div>
+
+        <!-- Theme Selector -->
+        <div class="space-y-2">
+          <label
+            class="text-sm font-semibold text-gray-300 uppercase tracking-wide"
+            >Theme</label
+          >
+          <select
+            @change="handleThemeChange($event)"
+            :value="currentTheme?.name"
+            class="w-full bg-gray-700 border border-gray-600 text-white font-medium py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200"
+          >
+            <option
+              v-for="theme in availableThemes"
+              :key="theme.id"
+              :value="theme.name"
+              :data-path="theme.path"
+            >
+              {{ theme.name }}
+            </option>
+          </select>
+          <p v-if="currentTheme" class="text-xs text-gray-400 italic">
+            {{ currentTheme.description }}
+          </p>
         </div>
 
         <!-- File Selection -->
@@ -283,6 +331,7 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useTrivia } from "./composables/useTrivia";
+import { useTheme } from "./composables/useTheme";
 
 const {
   questions,
@@ -298,6 +347,25 @@ const {
   stopTrivia,
   resetTrivia,
 } = useTrivia();
+
+const {
+  availableThemes,
+  currentTheme,
+  getBackgroundClass,
+  getBackgroundStyle,
+  getShapes,
+  getShapePositionClass,
+  getShapeSizeClass,
+  getShapeStyle,
+  getAnswerStyle,
+  getProgressBarStyle,
+  getCategoryStyle,
+  getTextColor,
+  getTypography,
+  getLayout,
+  getAnimationDuration,
+  selectTheme,
+} = useTheme();
 
 const availableFiles = ref([]);
 const loading = ref(false);
@@ -385,6 +453,14 @@ function resetAndGoBack() {
   resetTrivia();
   loadTriviaData({ questions: [] }, "");
 }
+
+function handleThemeChange(event) {
+  const selectedOption = event.target.selectedOptions[0];
+  const themePath = selectedOption.dataset.path;
+  if (themePath) {
+    selectTheme(themePath);
+  }
+}
 </script>
 
 <style scoped>
@@ -402,6 +478,11 @@ function resetAndGoBack() {
 
 .animate-pulse {
   animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Support for dynamic transition duration */
+.transition {
+  transition-duration: var(--enter-duration, 700ms);
 }
 
 /* Custom scrollbar for sidebar */
