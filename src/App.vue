@@ -170,6 +170,11 @@
                 class="absolute inset-y-0 left-0 transition-all duration-100 ease-linear"
                 :style="progressBarFillStyle"
               ></div>
+              <!-- Answer Reveal Marker -->
+              <div
+                class="absolute inset-y-0 w-1 bg-white opacity-75 shadow-lg transition-all duration-300"
+                :style="{ left: answerRevealPosition + '%' }"
+              ></div>
               <div class="absolute inset-0 flex items-center justify-center">
                 <span
                   class="font-bold text-lg drop-shadow-md"
@@ -271,6 +276,29 @@
           </div>
           <p class="text-xs text-gray-400">
             Between 5 and 300 seconds (default: 60s)
+          </p>
+        </div>
+
+        <!-- Answer Reveal Time -->
+        <div class="space-y-2">
+          <label
+            class="text-sm font-semibold text-gray-300 uppercase tracking-wide"
+            >Answer Reveal Time</label
+          >
+          <div class="flex gap-2 items-center">
+            <input
+              type="number"
+              :value="answerRevealTime"
+              @input="handleAnswerRevealChange($event)"
+              :disabled="isPlaying"
+              min="1"
+              :max="questionDuration - 1"
+              class="flex-1 bg-gray-700 border border-gray-600 text-white font-medium py-3 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            />
+            <span class="text-gray-400 font-semibold">sec</span>
+          </div>
+          <p class="text-xs text-gray-400">
+            Seconds before end to reveal answer (default: 10s)
           </p>
         </div>
 
@@ -411,12 +439,14 @@ const {
   timeRemaining,
   showAnswer,
   questionDuration,
+  answerRevealTime,
   loadTriviaData,
   nextQuestion,
   startTrivia,
   stopTrivia,
   resetTrivia,
   setQuestionDuration,
+  setAnswerRevealTime,
 } = useTrivia();
 
 const {
@@ -489,8 +519,16 @@ const progressBarFillStyle = computed(() => {
     width: progressPercentage.value + "%",
     ...getProgressBarStyle.value,
   };
-  console.log("Progress Bar Style:", style);
   return style;
+});
+
+// Answer reveal marker position (percentage from left)
+const answerRevealPosition = computed(() => {
+  const revealPercentage =
+    ((questionDuration.value - answerRevealTime.value) /
+      questionDuration.value) *
+    100;
+  return Math.max(0, Math.min(100, revealPercentage));
 });
 
 // Force re-computation on window resize
@@ -573,6 +611,13 @@ function handleDurationChange(event) {
   const value = parseInt(event.target.value, 10);
   if (!isNaN(value)) {
     setQuestionDuration(value);
+  }
+}
+
+function handleAnswerRevealChange(event) {
+  const value = parseInt(event.target.value, 10);
+  if (!isNaN(value)) {
+    setAnswerRevealTime(value);
   }
 }
 </script>

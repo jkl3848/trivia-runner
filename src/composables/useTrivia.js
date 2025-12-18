@@ -7,6 +7,7 @@ export function useTrivia() {
   const triviaFileName = ref("");
   const shuffledIndices = ref([]);
   const questionDuration = ref(60); // Configurable duration in seconds
+  const answerRevealTime = ref(10); // Time before end to reveal answer (seconds)
   const timeRemaining = ref(60);
   const showAnswer = ref(false);
   let intervalId = null;
@@ -49,6 +50,13 @@ export function useTrivia() {
     }
   };
 
+  const setAnswerRevealTime = (seconds) => {
+    answerRevealTime.value = Math.max(
+      1,
+      Math.min(questionDuration.value - 1, seconds)
+    ); // Between 1 and duration-1
+  };
+
   const nextQuestion = () => {
     if (questions.value.length === 0) return;
 
@@ -77,8 +85,8 @@ export function useTrivia() {
     timerIntervalId = setInterval(() => {
       timeRemaining.value -= 0.1;
 
-      // Show answer at 10 seconds remaining
-      if (timeRemaining.value <= 10 && !showAnswer.value) {
+      // Show answer at configured time remaining
+      if (timeRemaining.value <= answerRevealTime.value && !showAnswer.value) {
         showAnswer.value = true;
       }
 
@@ -122,11 +130,13 @@ export function useTrivia() {
     timeRemaining,
     showAnswer,
     questionDuration,
+    answerRevealTime,
     loadTriviaData,
     nextQuestion,
     startTrivia,
     stopTrivia,
     resetTrivia,
     setQuestionDuration,
+    setAnswerRevealTime,
   };
 }
