@@ -36,7 +36,14 @@ const triviaSchema = {
 // Theme schema for validation
 const themeSchema = {
   type: "object",
-  required: ["name", "description", "colors", "typography", "animations", "layout"],
+  required: [
+    "name",
+    "description",
+    "colors",
+    "typography",
+    "animations",
+    "layout",
+  ],
   properties: {
     name: {
       type: "string",
@@ -62,9 +69,18 @@ const themeSchema = {
             gradient: {
               type: "object",
               properties: {
-                from: { type: "string", pattern: "^#[0-9A-Fa-f]{3,6}$|^rgba?\\(" },
-                via: { type: "string", pattern: "^#[0-9A-Fa-f]{3,6}$|^rgba?\\(" },
-                to: { type: "string", pattern: "^#[0-9A-Fa-f]{3,6}$|^rgba?\\(" },
+                from: {
+                  type: "string",
+                  pattern: "^#[0-9A-Fa-f]{3,6}$|^rgba?\\(",
+                },
+                via: {
+                  type: "string",
+                  pattern: "^#[0-9A-Fa-f]{3,6}$|^rgba?\\(",
+                },
+                to: {
+                  type: "string",
+                  pattern: "^#[0-9A-Fa-f]{3,6}$|^rgba?\\(",
+                },
                 direction: { type: "string" },
               },
             },
@@ -164,7 +180,13 @@ const themeSchema = {
               opacity: { type: "number", minimum: 0, maximum: 1 },
               position: {
                 type: "string",
-                enum: ["top-left", "top-right", "bottom-left", "bottom-right", "center"],
+                enum: [
+                  "top-left",
+                  "top-right",
+                  "bottom-left",
+                  "bottom-right",
+                  "center",
+                ],
               },
               size: {
                 type: "string",

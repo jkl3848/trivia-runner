@@ -15,12 +15,18 @@
           :style="getBackgroundStyle"
         >
           <!-- Animated Background Shapes -->
-          <div class="absolute inset-0 overflow-hidden" v-if="getShapes.length > 0">
+          <div
+            class="absolute inset-0 overflow-hidden"
+            v-if="getShapes.length > 0"
+          >
             <div
               v-for="(shape, index) in getShapes"
               :key="index"
               class="absolute rounded-full blur-3xl animate-pulse"
-              :class="[getShapePositionClass(shape.position), getShapeSizeClass(shape.size)]"
+              :class="[
+                getShapePositionClass(shape.position),
+                getShapeSizeClass(shape.size),
+              ]"
               :style="{ ...getShapeStyle(shape), animationDelay: `${index}s` }"
             ></div>
           </div>
@@ -34,12 +40,18 @@
               <div>
                 <h1
                   class="mb-6 drop-shadow-2xl"
-                  :class="[getTypography('title').size, getTypography('title').weight]"
+                  :class="[
+                    getTypography('title').size,
+                    getTypography('title').weight,
+                  ]"
                   :style="{ color: getTextColor }"
                 >
                   TRIVIA
                 </h1>
-                <p class="text-3xl font-semibold" :style="{ color: getTextColor, opacity: 0.9 }">
+                <p
+                  class="text-3xl font-semibold"
+                  :style="{ color: getTextColor, opacity: 0.9 }"
+                >
                   Select a trivia file to begin
                 </p>
               </div>
@@ -53,24 +65,39 @@
               class="flex-1 flex flex-col items-center justify-center px-16 py-20"
             >
               <!-- Category Pills -->
-              <div class="flex flex-wrap gap-4 justify-center" :class="getLayout('spacing').categories">
+              <div
+                class="flex flex-wrap gap-4 justify-center"
+                :class="getLayout('spacing').categories"
+              >
                 <span
                   class="backdrop-blur-md px-8 py-3 border-2 shadow-lg"
-                  :class="[getLayout('borderRadius').categories, getTypography('category').main.size, getTypography('category').main.weight]"
+                  :class="[
+                    getLayout('borderRadius').categories,
+                    getTypography('category').main.size,
+                    getTypography('category').main.weight,
+                  ]"
                   :style="getCategoryStyle('main')"
                 >
                   {{ currentQuestion.category.main }}
                 </span>
                 <span
                   class="backdrop-blur-md px-8 py-3 border shadow-lg"
-                  :class="[getLayout('borderRadius').categories, getTypography('category').sub.size, getTypography('category').sub.weight]"
+                  :class="[
+                    getLayout('borderRadius').categories,
+                    getTypography('category').sub.size,
+                    getTypography('category').sub.weight,
+                  ]"
                   :style="getCategoryStyle('sub')"
                 >
                   {{ currentQuestion.category.sub }}
                 </span>
                 <span
                   class="backdrop-blur-md px-6 py-2 border shadow-lg"
-                  :class="[getLayout('borderRadius').categories, getTypography('category').subsub.size, getTypography('category').subsub.weight]"
+                  :class="[
+                    getLayout('borderRadius').categories,
+                    getTypography('category').subsub.size,
+                    getTypography('category').subsub.weight,
+                  ]"
                   :style="getCategoryStyle('subsub')"
                 >
                   {{ currentQuestion.category.subsub }}
@@ -78,10 +105,16 @@
               </div>
 
               <!-- Question -->
-              <div class="text-center max-w-4xl" :class="getLayout('spacing').question">
+              <div
+                class="text-center max-w-4xl"
+                :class="getLayout('spacing').question"
+              >
                 <h2
                   class="leading-tight drop-shadow-2xl mb-8"
-                  :class="[getTypography('question').size, getTypography('question').weight]"
+                  :class="[
+                    getTypography('question').size,
+                    getTypography('question').weight,
+                  ]"
                   :style="{ color: getTextColor }"
                 >
                   {{ currentQuestion.question }}
@@ -101,12 +134,21 @@
                 <div
                   v-if="showAnswer"
                   class="shadow-2xl border-4 max-w-4xl"
-                  :class="[getLayout('spacing').answer, getLayout('borderRadius').answer]"
-                  :style="{ ...getAnswerStyle, borderColor: currentTheme?.colors.answer.border }"
+                  :class="[
+                    getLayout('spacing').answer,
+                    getLayout('borderRadius').answer,
+                  ]"
+                  :style="{
+                    ...getAnswerStyle,
+                    borderColor: currentTheme?.colors.answer.border,
+                  }"
                 >
                   <p
                     class="drop-shadow-lg"
-                    :class="[getTypography('answer').size, getTypography('answer').weight]"
+                    :class="[
+                      getTypography('answer').size,
+                      getTypography('answer').weight,
+                    ]"
                     :style="{ color: currentTheme?.colors.answer.text }"
                   >
                     {{ currentQuestion.answer }}
@@ -118,11 +160,18 @@
             <!-- Progress Bar -->
             <div
               class="relative h-8 backdrop-blur-sm"
-              :style="{ backgroundColor: currentTheme?.colors.progressBar.background || 'rgba(0,0,0,0.3)' }"
+              :style="{
+                backgroundColor:
+                  currentTheme?.colors.progressBar.background ||
+                  'rgba(0,0,0,0.3)',
+              }"
             >
               <div
                 class="absolute inset-y-0 left-0 transition-all duration-100 ease-linear"
-                :style="{ width: progressPercentage + '%', ...getProgressBarStyle }"
+                :style="{
+                  width: progressPercentage + '%',
+                  ...getProgressBarStyle,
+                }"
               ></div>
               <div class="absolute inset-0 flex items-center justify-center">
                 <span

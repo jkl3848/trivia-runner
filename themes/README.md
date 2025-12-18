@@ -33,7 +33,11 @@ This directory contains theme files that customize the appearance of your trivia
     "categories": {
       "main": { "bg": "#hexcolor", "text": "#hexcolor", "border": "#hexcolor" },
       "sub": { "bg": "#hexcolor", "text": "#hexcolor", "border": "#hexcolor" },
-      "subsub": { "bg": "#hexcolor", "text": "#hexcolor", "border": "#hexcolor" }
+      "subsub": {
+        "bg": "#hexcolor",
+        "text": "#hexcolor",
+        "border": "#hexcolor"
+      }
     },
     "answer": {
       "bg": "#hexcolor or gradient config",
@@ -45,7 +49,12 @@ This directory contains theme files that customize the appearance of your trivia
       "fill": "#hexcolor or gradient config"
     },
     "shapes": [
-      { "color": "#hexcolor", "opacity": 0.2, "position": "top-left | bottom-right | center", "size": "small | medium | large" }
+      {
+        "color": "#hexcolor",
+        "opacity": 0.2,
+        "position": "top-left | bottom-right | center",
+        "size": "small | medium | large"
+      }
     ]
   },
   "typography": {
