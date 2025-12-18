@@ -11,4 +11,9 @@ module.exports = defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      external: ["ajv"],
+    },
+  },
 });

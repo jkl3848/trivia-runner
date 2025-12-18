@@ -3,24 +3,14 @@ const { VitePlugin } = require("@electron-forge/plugin-vite");
 module.exports = {
   packagerConfig: {
     asar: true,
+    // Don't ignore node_modules that are needed
+    ignore: [/^\/\.git/, /^\/node_modules\/\.cache/],
   },
   rebuildConfig: {},
   makers: [
     {
-      name: "@electron-forge/maker-squirrel",
-      config: {},
-    },
-    {
       name: "@electron-forge/maker-zip",
-      platforms: ["darwin"],
-    },
-    {
-      name: "@electron-forge/maker-deb",
-      config: {},
-    },
-    {
-      name: "@electron-forge/maker-rpm",
-      config: {},
+      platforms: ["darwin", "win32"],
     },
   ],
   plugins: [
